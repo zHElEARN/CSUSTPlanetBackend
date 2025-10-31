@@ -6,8 +6,9 @@
             "args": [],
             "cwd": "${workspaceFolder:CSUSTPlanetBackend}",
             "name": "Debug CSUSTPlanetBackend",
-            "program": "${workspaceFolder:CSUSTPlanetBackend}/.build/debug/CSUSTPlanetBackend",
-            "preLaunchTask": "swift: Build Debug CSUSTPlanetBackend"
+            "preLaunchTask": "swift: Build Debug CSUSTPlanetBackend",
+            "target": "CSUSTPlanetBackend",
+            "configuration": "debug"
         },
         {
             "type": "swift",
@@ -15,8 +16,9 @@
             "args": [],
             "cwd": "${workspaceFolder:CSUSTPlanetBackend}",
             "name": "Release CSUSTPlanetBackend",
-            "program": "${workspaceFolder:CSUSTPlanetBackend}/.build/release/CSUSTPlanetBackend",
-            "preLaunchTask": "swift: Build Release CSUSTPlanetBackend"
+            "preLaunchTask": "swift: Build Release CSUSTPlanetBackend",
+            "target": "CSUSTPlanetBackend",
+            "configuration": "release"
         }
     ]
 }
