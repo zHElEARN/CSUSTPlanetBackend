@@ -29,7 +29,7 @@ actor ElectricityJob {
             job.cancel()
             jobs.removeValue(forKey: id)
         }
-        app.logger.info("取消电量定时任务，宿舍：\(electricityBinding.room)")
+        app.logger.info("取消电量定时任务，绑定：(\(electricityBinding))")
     }
 
     // MARK: - Schedule Job
@@ -44,7 +44,7 @@ actor ElectricityJob {
         // 调度内容
         let job = try app.cron.schedule(cronExpression) {
             Task {
-                app.logger.info("开始执行电量查询任务，宿舍：\(electricityBinding.room)")
+                app.logger.info("开始执行电量查询任务，绑定：(\(electricityBinding))")
                 do {
                     let alert: APNSAlertNotification<EmptyPayload>
                     if let electricity = try? await ElectricityHelper.getInstance().getElectricity(
@@ -62,7 +62,7 @@ actor ElectricityJob {
                             topic: "com.zhelearn.CSUSTPlanet",
                             badge: 0
                         )
-                        app.logger.info("电量查询通知发送成功，宿舍：\(electricityBinding.room)，电量：\(electricity) 度")
+                        app.logger.info("电量查询通知发送成功，绑定：(\(electricityBinding))，电量：\(electricity) 度")
                     } else {
                         alert = APNSAlertNotification(
                             alert: .init(
@@ -74,13 +74,13 @@ actor ElectricityJob {
                             topic: "com.zhelearn.CSUSTPlanet",
                             badge: 0
                         )
-                        app.logger.warning("电量查询失败，宿舍：\(electricityBinding.room)")
+                        app.logger.warning("电量查询失败，绑定：(\(electricityBinding))")
                     }
                     try await app.apns.client.sendAlertNotification(alert, deviceToken: electricityBinding.deviceToken)
                 } catch let apnsError as APNSError {
                     switch apnsError.reason {
                     case .badDeviceToken, .unregistered, .deviceTokenNotForTopic:
-                        app.logger.warning("设备令牌无效，取消电量定时任务，宿舍：\(electricityBinding.room)")
+                        app.logger.warning("设备令牌无效，取消电量定时任务，绑定：(\(electricityBinding))")
                         try? await ElectricityJob.shared.cancelJob(app: app, electricityBinding: electricityBinding)
                         try? await electricityBinding.delete(on: app.db)
                     default:
@@ -92,6 +92,6 @@ actor ElectricityJob {
             }
         }
         jobs[id] = job
-        app.logger.info("调度电量查询任务，宿舍：\(electricityBinding.room)，时间：\(electricityBinding.scheduleHour):\(electricityBinding.scheduleMinute)")
+        app.logger.info("调度电量查询任务，绑定：(\(electricityBinding))，时间：\(electricityBinding.scheduleHour):\(electricityBinding.scheduleMinute)")
     }
 }

@@ -72,3 +72,9 @@ final class ElectricityBinding: Model, @unchecked Sendable {
         )
     }
 }
+
+extension ElectricityBinding: CustomStringConvertible {
+    var description: String {
+        "\(campus)校区 \(building) \(room) 学号\(studentId)"
+    }
+}
