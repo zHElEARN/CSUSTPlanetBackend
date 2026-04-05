@@ -1,5 +1,8 @@
 # CSUSTPlanetBackend
 
+> [!IMPORTANT]
+> 本项目已弃用，新项目请前往 [go-csust-planet](https://github.com/zHElEARN/go-csust-planet) 查看。
+
 💧 A project built with the Vapor web framework.
 
 ## Getting Started
